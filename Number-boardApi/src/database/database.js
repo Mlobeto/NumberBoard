@@ -12,6 +12,13 @@ dotenv.config();
 // });
  export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
   logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  native: false,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // Necesario para algunas configuraciones de SSL
+    },
+  },
 }
 );
