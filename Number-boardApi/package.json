@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "load":"node src/scripts/insertNumbers.js"
   },
   "keywords": [],
   "author": "",
