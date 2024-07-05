@@ -1,6 +1,6 @@
 import Number from '../models/Number.js'
 // Función para insertar números del 0 al 999
-const insertNumbers = async () => {
+export const insertNumbers = async () => {
   try {
     // Borrar registros existentes para limpiar la tabla (opcional)
     await Number.destroy({ where: {} });
@@ -23,5 +23,5 @@ const insertNumbers = async () => {
   }
 };
 
-// Ejecutar la función para insertar los números
-insertNumbers();
+
+
