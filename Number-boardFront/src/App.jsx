@@ -42,8 +42,8 @@ const App = () => {
             }
           />
           <Route 
-            path="/selectedTrue" 
-            element={<SelectedNumbersList  />} 
+            path="/pirulo" 
+            element={<SelectedNumbersList/>} 
           />
         </Routes>
       </div>
