@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import {BASE_URL} from './Config';
+import { BASE_URL } from './Config';
 
 const NumberBoard = ({ onSelect }) => {
   const [numbers, setNumbers] = useState([]);
@@ -130,6 +130,7 @@ NumberBoard.propTypes = {
 };
 
 export default NumberBoard;
+
 
 
 

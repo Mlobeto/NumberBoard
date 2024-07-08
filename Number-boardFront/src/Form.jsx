@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logoviaja from './assets/logoviaja.png'; 
-import {BASE_URL} from './Config';
+import { BASE_URL } from './Config';
 
 const Form = ({ selectedNumbers, onBack }) => {
   const [name, setName] = useState('');
@@ -35,19 +35,30 @@ const Form = ({ selectedNumbers, onBack }) => {
   const generatePDF = (numbers, name, phone) => {
     const doc = new jsPDF();
 
-    
     const img = new Image();
     img.src = logoviaja;
     doc.addImage(img, 'PNG', 10, 10, 40, 40); 
 
     doc.setFontSize(16);
-    doc.text("Sorteo Lotería Boyacá Día 28 de Septiembre", 10, 60); 
+    const text1 = "-Sorteo el día Jueves 26 de Septiembre  Loteria Bogotá";
+    const text2 = "-Sorteo el día Viernes 27 de Septiembre Lotería de Risalralda";
+    const text3 = "-Premio mayor Sabado 28 de septiembre Lotería Boyaca";
+    const marginLeft = 10;
+    const marginTop = 60;
+    const lineHeight = 0;
 
-    
-    doc.setFontSize(12);
-    doc.text(`Números seleccionados: ${numbers.join(', ')}`, 10, 80);
-    doc.text(`Nombre: ${name}`, 10, 90);
-    doc.text(`Teléfono: ${phone}`, 10, 100);
+    const text1Lines = doc.splitTextToSize(text1, 180);
+    const text2Lines = doc.splitTextToSize(text2, 180);
+    const text3Lines = doc.splitTextToSize(text3, 180);
+
+    doc.text(text1Lines, marginLeft, marginTop);
+    doc.text(text2Lines, marginLeft, marginTop + text1Lines.length * lineHeight + 10);
+    doc.text(text3Lines, marginLeft, marginTop + (text1Lines.length + text2Lines.length) * lineHeight + 20);
+
+    doc.setFontSize(14);
+    doc.text(`Números seleccionados: ${numbers.join(', ')}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 40);
+    doc.text(`Nombre: ${name}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 50);
+    doc.text(`Teléfono: ${phone}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 60);
 
     doc.save('datos-seleccionados.pdf');
   };

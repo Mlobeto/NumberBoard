@@ -3,7 +3,7 @@ import { sequelize } from '../database/database.js';
 
 const Number = sequelize.define('Number', {
   value: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     unique: true,
     allowNull: false,
   },
