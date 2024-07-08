@@ -58,21 +58,9 @@ const NumberBoard = ({ onSelect }) => {
     navigate('/form');
   };
 
-  const goToPreviousPage = () => {
-    if (paginationData.currentPage > 1) {
-      handlePageChange(paginationData.currentPage - 1);
-    }
-  };
-
-  const goToNextPage = () => {
-    if (paginationData.currentPage < paginationData.totalPages) {
-      handlePageChange(paginationData.currentPage + 1);
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-secondary">
-      <div className="py-9 px-2 sm:px-4 md:px-8 grid gap-1 sm:gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10">
+      <div className="py-10 px-4 sm:px-2 md:px-8 grid gap-1 sm:gap-2 grid-cols-5 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-10">
         {numbers.map((num) => (
           <div
             key={num.value}
@@ -88,20 +76,17 @@ const NumberBoard = ({ onSelect }) => {
 
       {/* Paginación */}
       <div className="flex justify-center items-center mt-4 space-x-2">
-        <button
-          className="px-3 py-1 border rounded bg-white text-blue-500"
-          onClick={goToPreviousPage}
-          disabled={paginationData.currentPage === 1}
-        >
-          &lt; Anterior
-        </button>
-        <button
-          className="px-3 py-1 border rounded bg-white text-blue-500"
-          onClick={goToNextPage}
-          disabled={paginationData.currentPage === paginationData.totalPages}
-        >
-          Siguiente &gt;
-        </button>
+        {[...Array(paginationData.totalPages)].map((_, index) => (
+          <button
+            key={index + 1}
+            className={`px-2 py-1 border rounded ${
+              paginationData.currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+            }`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
 
       {/* Botón de confirmación */}
@@ -123,6 +108,7 @@ NumberBoard.propTypes = {
 };
 
 export default NumberBoard;
+
 
 
 
