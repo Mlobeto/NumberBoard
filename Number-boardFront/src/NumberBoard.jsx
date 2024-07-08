@@ -68,7 +68,7 @@ const NumberBoard = ({ onSelect }) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-secondary">
-      <div className="py-9 px-8 grid grid-cols-10 gap-2 bg-">
+      <div className="py-9 px-8 grid gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10">
         {numbers.map((num) => (
           <div
             key={num.value}
@@ -130,6 +130,7 @@ NumberBoard.propTypes = {
 };
 
 export default NumberBoard;
+
 
 
 
