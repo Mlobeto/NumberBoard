@@ -41,7 +41,7 @@ const Form = ({ selectedNumbers, onBack }) => {
 
     doc.setFontSize(16);
     const text1 = "-Sorteo el día Jueves 26 de Septiembre  Loteria Bogotá";
-    const text2 = "-Sorteo el día Viernes 27 de Septiembre Lotería de Risalralda";
+    const text2 = "-Sorteo el día Viernes 27 de Septiembre Lotería de Risaralda";
     const text3 = "-Premio mayor Sabado 28 de septiembre Lotería Boyaca";
     const marginLeft = 10;
     const marginTop = 60;
