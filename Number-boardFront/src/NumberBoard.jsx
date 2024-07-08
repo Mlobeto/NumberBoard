@@ -22,10 +22,11 @@ const NumberBoard = ({ onSelect }) => {
         );
         if (response.data && response.data.availableNumbers) {
           setNumbers(response.data.availableNumbers);
-          setPaginationData({
+          setPaginationData((prevData) => ({
+            ...prevData,
             totalPages: response.data.totalPages,
             currentPage: response.data.currentPage,
-          });
+          }));
         } else {
           console.error('La respuesta de la API no tiene la estructura esperada:', response.data);
         }
@@ -35,7 +36,7 @@ const NumberBoard = ({ onSelect }) => {
     };
 
     fetchNumbers();
-  }, [paginationData.currentPage, numbersPerPage]);
+  }, [paginationData.currentPage]);
 
   const selectNumber = (number) => {
     if (selectedNumbers.includes(number)) {
@@ -46,7 +47,10 @@ const NumberBoard = ({ onSelect }) => {
   };
 
   const handlePageChange = (pageNumber) => {
-    setPaginationData({ ...paginationData, currentPage: pageNumber });
+    setPaginationData((prevData) => ({
+      ...prevData,
+      currentPage: pageNumber,
+    }));
   };
 
   const confirmSelection = () => {
@@ -68,11 +72,11 @@ const NumberBoard = ({ onSelect }) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-secondary">
-      <div className="py-9 px-8 grid grid-cols-10 gap-2 bg-">
+      <div className="py-9 px-2 sm:px-4 md:px-8 grid gap-1 sm:gap-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10">
         {numbers.map((num) => (
           <div
             key={num.value}
-            className={`w-12 h-12 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center border rounded cursor-pointer ${
+            className={`w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center border rounded cursor-pointer ${
               selectedNumbers.includes(num.value) ? 'bg-amber-300 text-white' : 'bg-white'
             }`}
             onClick={() => selectNumber(num.value)}
@@ -89,25 +93,14 @@ const NumberBoard = ({ onSelect }) => {
           onClick={goToPreviousPage}
           disabled={paginationData.currentPage === 1}
         >
-          &lt;
+          &lt; Anterior
         </button>
-        {Array.from({ length: paginationData.totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            className={`mx-1 px-3 py-1 border rounded ${
-              i + 1 === paginationData.currentPage ? 'bg-amber-300 text-white' : 'bg-white text-blue-500'
-            }`}
-            onClick={() => handlePageChange(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
         <button
           className="px-3 py-1 border rounded bg-white text-blue-500"
           onClick={goToNextPage}
           disabled={paginationData.currentPage === paginationData.totalPages}
         >
-          &gt;
+          Siguiente &gt;
         </button>
       </div>
 
@@ -130,6 +123,8 @@ NumberBoard.propTypes = {
 };
 
 export default NumberBoard;
+
+
 
 
 
