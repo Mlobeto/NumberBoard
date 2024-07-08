@@ -72,8 +72,8 @@ const NumberBoard = ({ onSelect }) => {
         {numbers.map((num) => (
           <div
             key={num.value}
-            className={`w-12 h-12 flex items-center justify-center border rounded cursor-pointer ${
-              selectedNumbers.includes(num.value) ? ' bg-amber-300 text-white' : 'bg-white'
+            className={`w-12 h-12 sm:w-8 sm:h-8 md:w-10 md:h-10 flex items-center justify-center border rounded cursor-pointer ${
+              selectedNumbers.includes(num.value) ? 'bg-amber-300 text-white' : 'bg-white'
             }`}
             onClick={() => selectNumber(num.value)}
           >
@@ -95,7 +95,7 @@ const NumberBoard = ({ onSelect }) => {
           <button
             key={i + 1}
             className={`mx-1 px-3 py-1 border rounded ${
-              i + 1 === paginationData.currentPage ? ' bg-amber-300 text-white' : 'bg-white text-blue-500'
+              i + 1 === paginationData.currentPage ? 'bg-amber-300 text-white' : 'bg-white text-blue-500'
             }`}
             onClick={() => handlePageChange(i + 1)}
           >
@@ -114,7 +114,7 @@ const NumberBoard = ({ onSelect }) => {
       {/* Botón de confirmación */}
       <div className="flex justify-center mt-8">
         <button
-          className=" text-white py-2 px-4 rounded bg-amber-300 border-spacing-16"
+          className="text-white py-2 px-4 rounded bg-amber-300 border-spacing-16"
           onClick={confirmSelection}
           disabled={selectedNumbers.length === 0}
         >
