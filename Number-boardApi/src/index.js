@@ -5,6 +5,7 @@ import { insertNumbers } from '../src/scripts/InsertNumbers.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
+
 sequelize.sync({ alter: true }).then(async () => {
   console.log('Database synced successfully');
   
