@@ -11,7 +11,10 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // Rutas
-app.use('/', numberRoutes);
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+  });
+app.use('/numbers', numberRoutes);
 
 export default app;
 
