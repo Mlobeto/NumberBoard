@@ -11,13 +11,14 @@ dotenv.config();
 //   logging: false,  // puedes activar esto para ver las consultas SQL en la consola
 // });
 export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
-  logging: false, 
+  logging: false,
   native: false,
   dialect: 'postgres',
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false, 
+      rejectUnauthorized: false,
     },
   },
-});//
+});
+
