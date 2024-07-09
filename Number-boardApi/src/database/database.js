@@ -16,7 +16,7 @@ dotenv.config();
 
 
 
-export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
+export const sequelize = new Sequelize(process.env.POSTGRES_URL, {
   logging: false,
   native: false,
   dialect: 'postgres',
