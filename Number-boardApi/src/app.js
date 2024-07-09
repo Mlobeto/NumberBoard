@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // Rutas
-app.use('/numbers', numberRoutes);
+app.use('/', numberRoutes);
 
 export default app;
 
