@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://number-boardapi-4m3tqr53u-inno-projects.vercel.app'
+export const BASE_URL = 'https://number-boardapi.vercel.app/'
 
 
 const Config = {
