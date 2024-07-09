@@ -14,11 +14,5 @@ export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
   logging: false,
   native: false,
   dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
 });
 
