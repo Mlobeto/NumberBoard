@@ -66,7 +66,7 @@ const NumberBoard = ({ onSelect }) => {
     <div className="min-h-screen flex flex-col bg-secondary">
       {loading ? (
         <div className="flex justify-center items-center flex-grow">
-          <p className="text-2xl font-bold">Aguarda un Instante, estamos cargando los números disponibles...</p>
+          <p className="text-2xl  text-white font-bold">Aguarda un Instante, estamos cargando los números disponibles...</p>
         </div>
       ) : (
         <>
