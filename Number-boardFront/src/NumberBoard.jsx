@@ -11,11 +11,13 @@ const NumberBoard = ({ onSelect }) => {
     totalPages: 1,
     currentPage: 1,
   });
+  const [loading, setLoading] = useState(true); // Estado de carga
   const numbersPerPage = 100;
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNumbers = async () => {
+      setLoading(true); // Iniciar la carga
       try {
         const response = await axios.get(
           `${BASE_URL}/numbers/available?page=${paginationData.currentPage}&limit=${numbersPerPage}`
@@ -32,6 +34,8 @@ const NumberBoard = ({ onSelect }) => {
         }
       } catch (error) {
         console.error('Error fetching numbers:', error);
+      } finally {
+        setLoading(false); 
       }
     };
 
@@ -60,45 +64,53 @@ const NumberBoard = ({ onSelect }) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-secondary">
-      <div className="py-10 px-4 sm:px-2 md:px-8 grid gap-1 sm:gap-2 grid-cols-5 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-10">
-        {numbers.map((num) => (
-          <div
-            key={num.value}
-            className={`w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center border rounded cursor-pointer ${
-              selectedNumbers.includes(num.value) ? 'bg-amber-300 text-white' : 'bg-white'
-            }`}
-            onClick={() => selectNumber(num.value)}
-          >
-            {num.value}
+      {loading ? (
+        <div className="flex justify-center items-center flex-grow">
+          <p className="text-2xl font-bold">Aguarda un Instante, estamos cargando los números disponibles...</p>
+        </div>
+      ) : (
+        <>
+          <div className="py-10 px-4 sm:px-2 md:px-8 grid gap-1 sm:gap-2 grid-cols-5 sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-10">
+            {numbers.map((num) => (
+              <div
+                key={num.value}
+                className={`w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center border rounded cursor-pointer ${
+                  selectedNumbers.includes(num.value) ? 'bg-amber-300 text-white' : 'bg-white'
+                }`}
+                onClick={() => selectNumber(num.value)}
+              >
+                {num.value}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Paginación */}
-      <div className="flex justify-center items-center mt-4 space-x-2">
-        {[...Array(paginationData.totalPages)].map((_, index) => (
-          <button
-            key={index + 1}
-            className={`px-2 py-1 border rounded ${
-              paginationData.currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
-            }`}
-            onClick={() => handlePageChange(index + 1)}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
+          {/* Paginación */}
+          <div className="flex justify-center items-center mt-4 space-x-2">
+            {[...Array(paginationData.totalPages)].map((_, index) => (
+              <button
+                key={index + 1}
+                className={`px-2 py-1 border rounded ${
+                  paginationData.currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+                }`}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
 
-      {/* Botón de confirmación */}
-      <div className="flex justify-center mt-8">
-        <button
-          className="text-white py-2 px-4 rounded bg-amber-300 border-spacing-16"
-          onClick={confirmSelection}
-          disabled={selectedNumbers.length === 0}
-        >
-          Confirmar Selección
-        </button>
-      </div>
+          {/* Botón de confirmación */}
+          <div className="flex justify-center mt-8">
+            <button
+              className="text-white py-2 px-4 rounded bg-amber-300 border-spacing-16"
+              onClick={confirmSelection}
+              disabled={selectedNumbers.length === 0}
+            >
+              Confirmar Selección
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -108,6 +120,7 @@ NumberBoard.propTypes = {
 };
 
 export default NumberBoard;
+
 
 
 
