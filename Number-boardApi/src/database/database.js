@@ -10,6 +10,12 @@ dotenv.config();
 //   dialect: 'postgres',
 //   logging: false,  // puedes activar esto para ver las consultas SQL en la consola
 // });
+
+
+
+
+
+
 export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
   logging: false,
   native: false,
@@ -22,3 +28,10 @@ export const sequelize = new Sequelize(process.env.DB_DEPLOY, {
   },
 });
 
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });

@@ -12,9 +12,11 @@ app.use(morgan('dev'));
 
 // Rutas
 app.get('/', (req, res) => {
-    res.send('Hello World!');
-  });
+  res.send('Hello World!');
+});
+
 app.use('/numbers', numberRoutes);
 
 export default app;
+
 
