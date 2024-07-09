@@ -7,4 +7,3 @@ const Config = {
 
 export default Config;
 
-//node src/scripts/insertNumbers.js
