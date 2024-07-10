@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://numberboard.onrender.com/'//'https://number-board.vercel.app'
+export const BASE_URL = 'https://numberboard.onrender.com/'
 
 
 const Config = {
