@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from './Config';
+
 
 const NumberBoard = ({ onSelect }) => {
   const [numbers, setNumbers] = useState([]);
@@ -20,7 +20,7 @@ const NumberBoard = ({ onSelect }) => {
       setLoading(true); // Iniciar la carga
       try {
         const response = await axios.get(
-          `${BASE_URL}/numbers/available?page=${paginationData.currentPage}&limit=${numbersPerPage}`
+          `https://numberboard.onrender.com/numbers/available?page=${paginationData.currentPage}&limit=${numbersPerPage}`
         );
         if (response.data && response.data.availableNumbers) {
           setNumbers(response.data.availableNumbers);

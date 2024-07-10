@@ -7,7 +7,7 @@ const Home = () => {
     <div className="min-h-screen flex flex-col bg-secondary">
       <div className="w-full bg-secondary text-white py-4">
         <div className="container mx-auto flex justify-between items-center">
-          {/* Aquí puedes agregar el logo u otros elementos si lo deseas */}
+         
         </div>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center">

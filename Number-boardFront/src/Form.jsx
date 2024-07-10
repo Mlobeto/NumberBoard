@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logoviaja from './assets/logoviaja.png'; 
-import { BASE_URL } from './Config';
+
 
 const Form = ({ selectedNumbers, onBack }) => {
   const [name, setName] = useState('');
@@ -20,7 +20,7 @@ const Form = ({ selectedNumbers, onBack }) => {
 
   const sendDataToBackend = async (numbers, name, phone) => {
     try {
-      await axios.post(`${BASE_URL}/numbers/select`, {
+      await axios.post("https://numberboard.onrender.com/numbers/select", {
         numbers,
         name,
         phone,
