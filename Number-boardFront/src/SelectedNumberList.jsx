@@ -1,6 +1,6 @@
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
-import {BASE_URL} from './Config';
+
 
 const SelectedNumbersList = () => {
   const [selectedNumbers, setSelectedNumbers] = useState([]);
