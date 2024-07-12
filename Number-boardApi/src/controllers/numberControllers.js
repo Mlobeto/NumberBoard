@@ -82,4 +82,17 @@ export const getSelectedNumbers = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener los números seleccionados', error });
   }
 };
+export const resetNumbers = async (req, res) => {
+  try {
+    // Desmarcar todos los números seleccionados
+    await Number.update(
+      { selected: false, name: null, phone: null },
+      { where: {} }
+    );
 
+    res.json({ message: 'Números reseteados correctamente' });
+  } catch (error) {
+    console.error('Error al resetear los números:', error);
+    res.status(500).json({ message: 'Error al resetear los números', error: error.message });
+  }
+};
