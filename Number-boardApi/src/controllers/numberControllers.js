@@ -1,14 +1,18 @@
 import Number from '../models/Number.js';
 
 // Obtener todos los números
+// Obtener todos los números ordenados
 export const getAllNumbers = async (req, res) => {
   try {
-    const numbers = await Number.findAll();
+    const numbers = await Number.findAll({
+      order: [['value', 'ASC']]
+    });
     res.json(numbers);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener los números', error });
   }
 };
+
 
 // Seleccionar un número
 export const selectNumbers = async (req, res) => {
