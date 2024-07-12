@@ -3,7 +3,9 @@ import jsPDF from 'jspdf';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logoviaja from './assets/logoviaja.png'; 
+import pdf from './assets/pdf.png'
+
+
 
 
 const Form = ({ selectedNumbers, onBack }) => {
@@ -33,35 +35,49 @@ const Form = ({ selectedNumbers, onBack }) => {
   };
 
   const generatePDF = (numbers, name, phone) => {
-    const doc = new jsPDF();
+    // Tamaño de la página A4 en milímetros
+    const a4Width = 100;
+    const a4Height = 210;
+  
+   
+    const halfWidth = a4Width / 2;
+    const halfHeight = a4Height / 2;
+  
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: [halfWidth, halfHeight]  
+    });
 
-    const img = new Image();
-    img.src = logoviaja;
-    doc.addImage(img, 'PNG', 10, 10, 40, 40); 
+    const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+  const year = now.getFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
 
-    doc.setFontSize(16);
-    const text1 = "-Sorteo el día Jueves 26 de Septiembre  Loteria Bogotá";
-    const text2 = "-Sorteo el día Viernes 27 de Septiembre Lotería de Risaralda";
-    const text3 = "-Premio mayor Sabado 28 de septiembre Lotería Boyaca";
-    const marginLeft = 10;
-    const marginTop = 60;
-    const lineHeight = 0;
+ 
+  const backgroundImage = new Image();
+  backgroundImage.src = pdf;
+  backgroundImage.onload = () => {
+    const imgWidth = doc.internal.pageSize.getWidth();
+    const imgHeight = doc.internal.pageSize.getHeight();
+    doc.addImage(backgroundImage, 'JPEG', 0, 0, imgWidth, imgHeight);
 
-    const text1Lines = doc.splitTextToSize(text1, 180);
-    const text2Lines = doc.splitTextToSize(text2, 180);
-    const text3Lines = doc.splitTextToSize(text3, 180);
+    // Agregar el texto
+    doc.setFontSize(8);
+    doc.setTextColor(255); 
 
-    doc.text(text1Lines, marginLeft, marginTop);
-    doc.text(text2Lines, marginLeft, marginTop + text1Lines.length * lineHeight + 10);
-    doc.text(text3Lines, marginLeft, marginTop + (text1Lines.length + text2Lines.length) * lineHeight + 20);
+    const marginLeft = 15;
+    const marginTop = 30;
 
-    doc.setFontSize(14);
-    doc.text(`Números seleccionados: ${numbers.join(', ')}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 40);
-    doc.text(`Nombre: ${name}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 50);
-    doc.text(`Teléfono: ${phone}`, 10, marginTop + (text1Lines.length + text2Lines.length + text3Lines.length) * lineHeight + 60);
-
+    
+    doc.text(`${name}`, marginLeft +9, marginTop +6 );
+    doc.text(` ${phone}`, marginLeft + 3, marginTop + 13);
+    doc.text(` ${numbers.join(', ')}`, marginLeft + 5, marginTop + 20);
+    doc.text(`${formattedDate}`, marginLeft, marginTop + 26);
     doc.save('datos-seleccionados.pdf');
   };
+};
 
   return (
     <div className="max-w-md mx-auto p-4 border rounded shadow">

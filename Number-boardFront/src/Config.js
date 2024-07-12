@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://numberboard.onrender.com'
+export const BASE_URL = "http://localhost:3001" 
 
 
 const Config = {
