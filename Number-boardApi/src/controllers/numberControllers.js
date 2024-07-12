@@ -60,6 +60,7 @@ export const getAvailableNumbers = async (req, res) => {
       where: { selected: false },
       offset,
       limit,
+      order: [['value', 'ASC']]
     });
 
     res.json({
@@ -78,7 +79,8 @@ export const getSelectedNumbers = async (req, res) => {
   try {
     const selectedNumbers = await Number.findAll({
       where: { selected: true },
-      attributes: ['value', 'name', 'phone'], 
+      attributes: ['value', 'name', 'phone'],
+      order: [['value', 'ASC']]
     });
     res.json(selectedNumbers);
   } catch (error) {
