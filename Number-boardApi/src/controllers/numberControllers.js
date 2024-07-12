@@ -84,11 +84,18 @@ export const getSelectedNumbers = async (req, res) => {
 };
 export const resetNumbers = async (req, res) => {
   try {
+    console.log('Reseteando números...');
+
     // Desmarcar todos los números seleccionados
-    await Number.update(
+    const result = await Number.update(
       { selected: false, name: null, phone: null },
       { where: {} }
     );
+
+    console.log('Resultado de la actualización:', result);
+
+    const updatedNumbers = await Number.findAll();
+    console.log('Números actualizados:', updatedNumbers);
 
     res.json({ message: 'Números reseteados correctamente' });
   } catch (error) {
