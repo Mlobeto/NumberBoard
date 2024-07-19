@@ -1,12 +1,50 @@
+// Form.js
 import { useState } from 'react';
 import jsPDF from 'jspdf';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import pdf from './assets/pdf.png'
+import pdf from './assets/pdf.png';
 
 
+const generatePDF = (numbers, name, phone) => {
+  const a4Width = 100;
+  const a4Height = 210;
+  const halfWidth = a4Width / 2;
+  const halfHeight = a4Height / 2;
 
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: [halfWidth, halfHeight]
+  });
+
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0'); 
+  const year = now.getFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
+
+  const backgroundImage = new Image();
+  backgroundImage.src = pdf;
+  backgroundImage.onload = () => {
+    const imgWidth = doc.internal.pageSize.getWidth();
+    const imgHeight = doc.internal.pageSize.getHeight();
+    doc.addImage(backgroundImage, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+    doc.setFontSize(8);
+    doc.setTextColor(255);
+
+    const marginLeft = 15;
+    const marginTop = 30;
+
+    doc.text(`${name}`, marginLeft + 9, marginTop + 6);
+    doc.text(` ${phone}`, marginLeft + 3, marginTop + 13);
+    doc.text(` ${numbers.join(', ')}`, marginLeft + 5, marginTop + 20);
+    doc.text(`${formattedDate}`, marginLeft, marginTop + 26);
+    doc.save('datos-seleccionados.pdf');
+  };
+};
 
 const Form = ({ selectedNumbers, onBack }) => {
   const [name, setName] = useState('');
@@ -17,12 +55,12 @@ const Form = ({ selectedNumbers, onBack }) => {
     e.preventDefault();
     await sendDataToBackend(selectedNumbers, name, phone);
     generatePDF(selectedNumbers, name, phone);
-    navigate('/'); 
+    navigate('/');
   };
 
   const sendDataToBackend = async (numbers, name, phone) => {
     try {
-      await axios.post("https://numberboard.onrender.com/numbers/select", {
+      await axios.post('https://numberboard.onrender.com/numbers/select', {
         numbers,
         name,
         phone,
@@ -33,51 +71,6 @@ const Form = ({ selectedNumbers, onBack }) => {
       alert('Error al enviar datos al backend');
     }
   };
-
-  const generatePDF = (numbers, name, phone) => {
-    // Tamaño de la página A4 en milímetros
-    const a4Width = 100;
-    const a4Height = 210;
-  
-   
-    const halfWidth = a4Width / 2;
-    const halfHeight = a4Height / 2;
-  
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: [halfWidth, halfHeight]  
-    });
-
-    const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
-  const year = now.getFullYear();
-  const formattedDate = `${day}-${month}-${year}`;
-
- 
-  const backgroundImage = new Image();
-  backgroundImage.src = pdf;
-  backgroundImage.onload = () => {
-    const imgWidth = doc.internal.pageSize.getWidth();
-    const imgHeight = doc.internal.pageSize.getHeight();
-    doc.addImage(backgroundImage, 'JPEG', 0, 0, imgWidth, imgHeight);
-
-    // Agregar el texto
-    doc.setFontSize(8);
-    doc.setTextColor(255); 
-
-    const marginLeft = 15;
-    const marginTop = 30;
-
-    
-    doc.text(`${name}`, marginLeft +9, marginTop +6 );
-    doc.text(` ${phone}`, marginLeft + 3, marginTop + 13);
-    doc.text(` ${numbers.join(', ')}`, marginLeft + 5, marginTop + 20);
-    doc.text(`${formattedDate}`, marginLeft, marginTop + 26);
-    doc.save('datos-seleccionados.pdf');
-  };
-};
 
   return (
     <div className="max-w-md mx-auto p-4 border rounded shadow">
@@ -121,7 +114,10 @@ Form.propTypes = {
   onBack: PropTypes.func.isRequired,
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
+export { generatePDF };
 export default Form;
+
 
 
 
