@@ -19,6 +19,11 @@ const Number = sequelize.define('Number', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  isPaid: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+
 });
 
 export default Number;

@@ -79,13 +79,32 @@ export const getSelectedNumbers = async (req, res) => {
   try {
     const selectedNumbers = await Number.findAll({
       where: { selected: true },
-      attributes: ['value', 'name', 'phone'],
+      attributes: ['id', 'value', 'name', 'phone', 'isPaid'],
       order: [['value', 'ASC']]
     });
     res.json(selectedNumbers);
   } catch (error) {
     console.error('Error al obtener los números seleccionados:', error);
     res.status(500).json({ message: 'Error al obtener los números seleccionados', error });
+  }
+};
+
+export const updateNumberPaymentStatus = async (req, res) => {
+  const { id } = req.params;
+  const { isPaid } = req.body;
+
+  try {
+    const number = await Number.findByPk(id);
+    if (!number) {
+      return res.status(404).json({ error: 'Número no encontrado' });
+    }
+
+    number.isPaid = isPaid;
+    await number.save();
+
+    res.status(200).json(number);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar el estado de pago', error: error.message });
   }
 };
 export const resetNumbers = async (req, res) => {

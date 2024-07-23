@@ -2,7 +2,6 @@ import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { generatePDF } from './Form';
 
-
 const SelectedNumbersList = () => {
   const [selectedNumbers, setSelectedNumbers] = useState([]);
 
@@ -10,6 +9,7 @@ const SelectedNumbersList = () => {
     const fetchSelectedNumbers = async () => {
       try {
         const response = await axios.get('https://numberboard.onrender.com/numbers/selectTrue');
+        console.log('Números seleccionados:', response.data); // Añade este log para verificar la respuesta
         setSelectedNumbers(response.data);
       } catch (error) {
         console.error('Error al obtener números seleccionados:', error);
@@ -24,6 +24,19 @@ const SelectedNumbersList = () => {
     generatePDF([value], name, phone);
   };
 
+  const handlePaymentStatusChange = async (number) => {
+    try {
+      const updatedNumber = { ...number, isPaid: !number.isPaid };
+      console.log(`https://numberboard.onrender.com/numbers/${number.id}/payment`); // Añade este log para verificar la URL
+      await axios.put(`https://numberboard.onrender.com/numbers/${number.id}/payment`, { isPaid: updatedNumber.isPaid });
+      setSelectedNumbers((prevNumbers) =>
+        prevNumbers.map((num) => (num.id === number.id ? updatedNumber : num))
+      );
+    } catch (error) {
+      console.error('Error al actualizar el estado de pago:', error);
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -32,6 +45,7 @@ const SelectedNumbersList = () => {
             <th className="border-b-2 border-gray-300 px-4 py-2">Valor</th>
             <th className="border-b-2 border-gray-300 px-4 py-2">Nombre</th>
             <th className="border-b-2 border-gray-300 px-4 py-2">Teléfono</th>
+            <th className="border-b-2 border-gray-300 px-4 py-2">Pagado</th>
             <th className="border-b-2 border-gray-300 px-4 py-2">Acción</th>
           </tr>
         </thead>
@@ -41,6 +55,13 @@ const SelectedNumbersList = () => {
               <td className="border-b border-gray-200 px-4 py-2">{number.value}</td>
               <td className="border-b border-gray-200 px-4 py-2">{number.name}</td>
               <td className="border-b border-gray-200 px-4 py-2">{number.phone}</td>
+              <td className="border-b border-gray-200 px-4 py-2">
+                <input
+                  type="checkbox"
+                  checked={number.isPaid}
+                  onChange={() => handlePaymentStatusChange(number)}
+                />
+              </td>
               <td className="border-b border-gray-200 px-4 py-2">
                 <button
                   onClick={() => handleDownloadPDF(number)}
@@ -58,4 +79,6 @@ const SelectedNumbersList = () => {
 };
 
 export default SelectedNumbersList;
+
+
 
